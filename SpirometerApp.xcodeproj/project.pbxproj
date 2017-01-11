@@ -13,6 +13,8 @@
 		8B2EF5151E2589E700183121 /* SpirometerApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8B2EF5131E2589E700183121 /* SpirometerApp.xcdatamodeld */; };
 		8B2EF5171E2589E700183121 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF5161E2589E700183121 /* Assets.xcassets */; };
 		8B2EF51A1E2589E700183121 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF5181E2589E700183121 /* LaunchScreen.storyboard */; };
+		8B2EF5231E2589F500183121 /* breath-gasp-01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF5211E2589F500183121 /* breath-gasp-01.wav */; };
+		8B2EF5241E2589F500183121 /* breath-gasp-02.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF5221E2589F500183121 /* breath-gasp-02.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		8B2EF5161E2589E700183121 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B2EF5191E2589E700183121 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B2EF51B1E2589E700183121 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8B2EF5211E2589F500183121 /* breath-gasp-01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "breath-gasp-01.wav"; sourceTree = "<group>"; };
+		8B2EF5221E2589F500183121 /* breath-gasp-02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "breath-gasp-02.wav"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 		8B2EF50B1E2589E700183121 /* SpirometerApp */ = {
 			isa = PBXGroup;
 			children = (
+				8B2EF5211E2589F500183121 /* breath-gasp-01.wav */,
+				8B2EF5221E2589F500183121 /* breath-gasp-02.wav */,
 				8B2EF50C1E2589E700183121 /* AppDelegate.swift */,
 				8B2EF50E1E2589E700183121 /* ViewController.swift */,
 				8B2EF5101E2589E700183121 /* Main.storyboard */,
@@ -129,7 +135,9 @@
 			files = (
 				8B2EF51A1E2589E700183121 /* LaunchScreen.storyboard in Resources */,
 				8B2EF5171E2589E700183121 /* Assets.xcassets in Resources */,
+				8B2EF5231E2589F500183121 /* breath-gasp-01.wav in Resources */,
 				8B2EF5121E2589E700183121 /* Main.storyboard in Resources */,
+				8B2EF5241E2589F500183121 /* breath-gasp-02.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,8 @@ import AVFoundation
 
 class ViewController: UIViewController, AVAudioRecorderDelegate {
 
+    let filenameSuffix = ".wav"
+    
     var player = AVAudioPlayer()
 
     var recordButton: UIButton!
@@ -74,9 +76,6 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         
     }
     
-    
-
-    
     // This function creates a UIButton that controls starting and stopping recording
     func loadRecordingUI() {
         let x = self.view.center.x
@@ -89,20 +88,32 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         view.addSubview(recordButton)
     }
     
+    func recordTapped() {
+        if audioRecorder == nil {
+            print("record tapped -> start recording")
+            startRecording()
+        } else {
+            print("record tapped -> finish recording")
+            finishRecording(success: true)
+        }
+    }
+    
     // This function starts the Recording with the specified settings for the sample rate, audio format, number of channels, and audio quality, as well as the designated audio file.
     func startRecording() {
         print("start recording")
         //let audioFilename = Bundle.main.bundlePath.appending("/recording1.m4a")
-        currentFileName = "\(nameTextField.text!)-\(trialTextField.text!)-\(distanceTextField.text!)-\(fev1TextField.text!).m4a"
+        currentFileName = "\(nameTextField.text!.replacingOccurrences(of: " ", with: ""))-\(trialTextField.text!.replacingOccurrences(of: " ", with: ""))-\(distanceTextField.text!.replacingOccurrences(of: " ", with: ""))-\(fev1TextField.text!.replacingOccurrences(of: " ", with: ""))\(filenameSuffix)"
+        print(currentFileName)
         let audioFileURL = getDocumentsDirectory().appendingPathComponent(currentFileName)
-        UserDefaults.standard.set(currentFileName, forKey: "lastRecording")
+        print(audioFileURL.absoluteString)
+        //UserDefaults.standard.set(currentFileName, forKey: "lastRecording")
         //print("file name: " + audioFileURL.absoluteString)
         //let audioFileURL = URL(fileURLWithPath: audioFilename)
         
 //        let settings: [String : AnyObject] = [
 //        
 //            AVFormatIDKey:Int(kAudioFormatLinearPCM),
-//        
+//
 //            AVSampleRateKey:44100.0,
 //        
 //            AVNumberOfChannelsKey:1,
@@ -115,42 +126,46 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
 //        
 //        ]
 
-        let settings = [
-            //AVFormatIDKey: Int(kAudioFormatLinearPCM),
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+        let settings:[String : NSNumber] = [
+            AVFormatIDKey: Int(kAudioFormatLinearPCM) as NSNumber,
+            //AVFormatIDKey: kAudioFormatAppleLossless as NSNumber,
             AVSampleRateKey: 44100,
             AVNumberOfChannelsKey: 1,
-            AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue
+            AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue as NSNumber
         ]
-        
+            
         do {
-            print("start recording")
+            print("in Do catch, not recording")
             
             audioRecorder = try AVAudioRecorder(url: audioFileURL, settings: settings)
-            print("start recording")
             
             audioRecorder.delegate = self
             audioRecorder.record()
-            
+            print("in do catch, recording")
             recordButton.setTitle("Tap to Stop", for: .normal)
-        } catch {
+            recordButton.backgroundColor = UIColor.red
             
+        } catch let error as NSError {
+            print("caught")
+            print(error)
             finishRecording(success: false)
         }
     }
 
-    // Deprecated
     // This function gets the URL for the documents directory.
     // URL is created in startRecording() for bundlepath
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        print("paths: " + paths[0].relativeString)
         let documentsDirectory = paths[0]
         return documentsDirectory
     }
     
     // Stops recording
     func finishRecording(success: Bool) {
-        print(audioRecorder == nil)
+        if (audioRecorder == nil) {
+            print("finished recording but audioRecorder is nil")
+        } else {
         audioRecorder.stop()
         print(audioRecorder.url.absoluteString)
         UserDefaults.standard.set(audioRecorder.url.absoluteString, forKey: "test")
@@ -159,23 +174,17 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         
         if success {
             recordButton.setTitle("Tap to Re-record", for: .normal)
+            recordButton.backgroundColor = UIColor.blue
             
         } else {
             recordButton.setTitle("Tap to Record", for: .normal)
+            recordButton.backgroundColor = UIColor.blue
             // recording failed :(
             print("recording faild")
         }
-    }
-    
-    func recordTapped() {
-        if audioRecorder == nil {
-            startRecording()
-        } else {
-            print(audioRecorder == nil)
-            finishRecording(success: true)
         }
     }
-    
+
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         if !flag {
             finishRecording(success: false)

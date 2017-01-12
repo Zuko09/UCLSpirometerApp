@@ -100,6 +100,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dEf-EQ-zvm">
+                                <rect key="frame" x="123" y="562" width="128" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Analyze Recording"/>
+                                <connections>
+                                    <segue destination="L0l-eK-I9l" kind="show" identifier="analyzeSegue" id="tkL-TX-80s"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -136,6 +144,61 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="32.799999999999997" y="104.7976011994003"/>
+        </scene>
+        <!--Analysis View Controller-->
+        <scene sceneID="MoW-5w-4fP">
+            <objects>
+                <viewController id="L0l-eK-I9l" customClass="AnalysisViewController" customModule="SpirometerApp" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9qg-nu-2zs"/>
+                        <viewControllerLayoutGuide type="bottom" id="9gh-iJ-gZG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LhO-kV-Q6F">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aFo-Tp-ezW">
+                                <rect key="frame" x="16" y="59" width="343" height="279"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="3fI-to-61H"/>
+                                    <constraint firstAttribute="height" constant="279" id="pGO-Oy-LBZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGW-ua-rjR">
+                                <rect key="frame" x="160" y="407" width="54" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="2CS-Wt-YXy"/>
+                                    <constraint firstAttribute="width" constant="54" id="qU9-Uu-W1a"/>
+                                </constraints>
+                                <state key="normal" title="Analyze"/>
+                                <connections>
+                                    <action selector="analyzeButtonPressed:" destination="L0l-eK-I9l" eventType="touchUpInside" id="XqX-7W-Zfk"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="yDr-Z6-NWl">
+                                <rect key="frame" x="177" y="462" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aFo-Tp-ezW" firstAttribute="centerX" secondItem="LhO-kV-Q6F" secondAttribute="centerX" id="6ZC-Cg-ais"/>
+                            <constraint firstItem="FGW-ua-rjR" firstAttribute="top" secondItem="aFo-Tp-ezW" secondAttribute="bottom" constant="69" id="TXm-0p-Ck5"/>
+                            <constraint firstItem="aFo-Tp-ezW" firstAttribute="top" secondItem="9qg-nu-2zs" secondAttribute="bottom" constant="39" id="ssH-pi-Xan"/>
+                            <constraint firstItem="FGW-ua-rjR" firstAttribute="centerX" secondItem="LhO-kV-Q6F" secondAttribute="centerX" id="t9r-Ks-DsJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="yDr-Z6-NWl" id="rxW-ke-WNd"/>
+                        <outlet property="showDataLabel" destination="aFo-Tp-ezW" id="paE-SG-NIb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Xg-QS-eTm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="760.79999999999995" y="104.7976011994003"/>
         </scene>
     </scenes>
 </document>

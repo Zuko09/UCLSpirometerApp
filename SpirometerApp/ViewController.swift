@@ -11,7 +11,7 @@ import UIKit
 import AVFoundation
 
 
-class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDelegate {
+class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
     let filenameSuffix = ".wav"
     
@@ -27,7 +27,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
     
     @IBOutlet weak var trialTextField: UITextField!
     
-    @IBOutlet weak var distanceTextField: UITextField!
+    @IBOutlet weak var distancePickerView: UIPickerView!
+    var pickerData: [Int] = [Int]()
+    var currentDistancePick = 30
     
     @IBOutlet weak var fev1TextField: UITextField!
     
@@ -60,11 +62,22 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
         
     }
     
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toAnalysisVC" {
+            let destinationVC = segue.destination as! AnalysisViewController
+            if currentFileName != "" {
+                destinationVC.aFile = currentFileName
+            }
+        }
+    }
+    
     // This function creates a UIButton that controls starting and stopping recording
     func loadRecordingUI() {
         let x = self.view.center.x
         let y = self.view.center.y
-        recordButton = UIButton(frame: CGRect(x: x-150, y: y + 68, width: 300, height: 64))
+        recordButton = UIButton(frame: CGRect(x: x-150, y: y, width: 300, height: 64))
         recordButton.setTitle("Tap to Record", for: .normal)
         recordButton.backgroundColor = UIColor.blue
         recordButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
@@ -87,7 +100,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
         print("start recording")
         let name = nameTextField.text!.replacingOccurrences(of: " ", with: "")
         let trial = trialTextField.text!.replacingOccurrences(of: " ", with: "")
-        let distance = distanceTextField.text!.replacingOccurrences(of: " ", with: "")
+        let distance = String(currentDistancePick)
         let fev1 = fev1TextField.text!.replacingOccurrences(of: " ", with: "")
         currentFileName = "\(name)-\(trial)-\(distance)-\(fev1)\(filenameSuffix)"
         print(currentFileName)
@@ -156,9 +169,17 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
         }
     }
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        // Configure Picker
+        self.distancePickerView.delegate = self
+        self.distancePickerView.dataSource = self
+        
+        pickerData = [30, 20, 15, 10 ,5]
         
         // This section is where we play a sound from a specified file
         playSoundButton.alpha = 0
@@ -202,6 +223,11 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
         self.view.endEditing(true)
     }
     
+    @IBAction func seeRecordingsButtonPressed(_ sender: Any) {
+        
+    }
+    
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true;
@@ -213,6 +239,19 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
         // Dispose of any resources that can be recreated.
     }
 
-
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return String(pickerData[row])
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        currentDistancePick = pickerData[row]
+    }
 }
 

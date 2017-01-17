@@ -12,11 +12,86 @@ import AVFoundation
 
 import UIKit
 
+import AudioKit
+
+
 class AnalysisViewController: UIViewController {
     
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var showDataLabel: UILabel!
+    
+    var player:AKAudioPlayer?
+    var plotView:AKView?
+    var aFile = "dean-2-30-421.wav"
+    var counter = 0
+    
+    override func didMove(toParentViewController parent: UIViewController?) {
+        print("hello")
+        if player == nil {
+            //setupNodePlayer()
+            //getfft()
+//            setupAudioPlayer()
+//            plotAudio()
+            
+            do {
+                print(aFile)
+                let file = try AKAudioFile(readFileName: aFile, baseDir: .documents)
+                let rect = CGRect(x:0, y:0, width:500, height:200)
+                player = try AKAudioPlayer(file: file)
+                
+                player?.looping = true
+                var variSpeed = AKVariSpeed(player!)
+                variSpeed.rate = 1
+                AudioKit.output = variSpeed
+                AudioKit.start()
+                player?.play()
+                //let plot = AKNodeFFTPlot.init(player!, frame: rect)
+//                plot.fft(EZAudioFFT(), updatedWithFFTData: UnsafeMutablePointer<Float>(), bufferSize: vDSP_Length())
+                plotAudio()
+                //self.view.addSubview(plot)
+            } catch {
+                print("Failed to load  wav file to AKAudioFile")
+            }
+
+            //plotAudio()
+            
+        } else {
+            if (player?.isPlaying)! {
+                player?.stop()
+                player = nil
+                plotView?.removeFromSuperview()
+                AudioKit.stop()
+                
+            }
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        activityIndicator.alpha = 0;
+        
+    }
+    
+    func plotAudio() {
+        let frame = CGRect(x:0, y:100, width:440, height:200)
+        let plot = AKRollingOutputPlot(frame: frame)
+        
+        plot.plotType = .rolling
+        plot.backgroundColor = AKColor.white
+        plot.color = AKColor.green
+        plot.shouldFill = true
+        plot.shouldMirror = true
+        plot.shouldCenterYAxis = true
+        
+        plotView = AKView(frame:frame)
+        plotView?.addSubview(plot)
+        self.view.addSubview(plotView!)
+    }
+    
+    func getFft() {
+        
+    }
     
     @IBAction func analyzeButtonPressed(_ sender: Any) {
         activityIndicator.startAnimating()
@@ -64,11 +139,6 @@ class AnalysisViewController: UIViewController {
     }
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        activityIndicator.alpha = 0;
-        
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -17,7 +17,10 @@
 		8B2EF51A1E2589E700183121 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF5181E2589E700183121 /* LaunchScreen.storyboard */; };
 		8B2EF5231E2589F500183121 /* breath-gasp-01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF5211E2589F500183121 /* breath-gasp-01.wav */; };
 		8B2EF5241E2589F500183121 /* breath-gasp-02.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF5221E2589F500183121 /* breath-gasp-02.wav */; };
+		8B58AAD11E2EF426004E13E1 /* Surge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B58AACE1E2EF415004E13E1 /* Surge.framework */; };
+		8B58AAD21E2EF426004E13E1 /* Surge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B58AACE1E2EF415004E13E1 /* Surge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8B6784161E2997140092B0AA /* RecordingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6784151E2997140092B0AA /* RecordingsViewController.swift */; };
+		8B7FB66C1E301B690095D1EB /* sine.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8B7FB66B1E301B690095D1EB /* sine.wav */; };
 		8BF353E31E280A3400A99AAE /* AnalysisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF353E21E280A3400A99AAE /* AnalysisViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +39,27 @@
 			remoteGlobalIDString = C42F34FF1C057E03000E937C;
 			remoteInfo = AudioKit;
 		};
+		8B58AACD1E2EF415004E13E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B58AAC81E2EF415004E13E1 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8A1E1AA19917A79009735E2;
+			remoteInfo = Surge;
+		};
+		8B58AACF1E2EF415004E13E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B58AAC81E2EF415004E13E1 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F84A6AAE19A9A72F007B53E1;
+			remoteInfo = SurgeTests;
+		};
+		8B58AAD31E2EF426004E13E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B58AAC81E2EF415004E13E1 /* Surge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8A1E1A919917A79009735E2;
+			remoteInfo = Surge;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +70,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8B2874401E2C8FAC004F4604 /* AudioKit.framework in Embed Frameworks */,
+				8B58AAD21E2EF426004E13E1 /* Surge.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -65,7 +90,9 @@
 		8B2EF51B1E2589E700183121 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B2EF5211E2589F500183121 /* breath-gasp-01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "breath-gasp-01.wav"; sourceTree = "<group>"; };
 		8B2EF5221E2589F500183121 /* breath-gasp-02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "breath-gasp-02.wav"; sourceTree = "<group>"; };
+		8B58AAC81E2EF415004E13E1 /* Surge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Surge.xcodeproj; path = "../../../../../Downloads/Surge-master/Surge.xcodeproj"; sourceTree = "<group>"; };
 		8B6784151E2997140092B0AA /* RecordingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingsViewController.swift; sourceTree = "<group>"; };
+		8B7FB66B1E301B690095D1EB /* sine.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sine.wav; sourceTree = "<group>"; };
 		8BF353E21E280A3400A99AAE /* AnalysisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalysisViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B28743F1E2C8FAC004F4604 /* AudioKit.framework in Frameworks */,
+				8B58AAD11E2EF426004E13E1 /* Surge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +122,7 @@
 			children = (
 				8B2EF50B1E2589E700183121 /* SpirometerApp */,
 				8B2EF50A1E2589E700183121 /* Products */,
+				8B58AAC81E2EF415004E13E1 /* Surge.xcodeproj */,
 				8B2874391E2C8F73004F4604 /* AudioKit For iOS.xcodeproj */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +141,7 @@
 				8B28741B1E2C729A004F4604 /* Bridging-Header.h */,
 				8B2EF5211E2589F500183121 /* breath-gasp-01.wav */,
 				8B2EF5221E2589F500183121 /* breath-gasp-02.wav */,
+				8B7FB66B1E301B690095D1EB /* sine.wav */,
 				8B6784151E2997140092B0AA /* RecordingsViewController.swift */,
 				8BF353E21E280A3400A99AAE /* AnalysisViewController.swift */,
 				8B2EF50C1E2589E700183121 /* AppDelegate.swift */,
@@ -123,6 +153,15 @@
 				8B2EF5131E2589E700183121 /* SpirometerApp.xcdatamodeld */,
 			);
 			path = SpirometerApp;
+			sourceTree = "<group>";
+		};
+		8B58AAC91E2EF415004E13E1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8B58AACE1E2EF415004E13E1 /* Surge.framework */,
+				8B58AAD01E2EF415004E13E1 /* SurgeTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +180,7 @@
 			);
 			dependencies = (
 				8B2874421E2C8FAC004F4604 /* PBXTargetDependency */,
+				8B58AAD41E2EF426004E13E1 /* PBXTargetDependency */,
 			);
 			name = SpirometerApp;
 			productName = SpirometerApp;
@@ -180,6 +220,10 @@
 					ProductGroup = 8B28743A1E2C8F73004F4604 /* Products */;
 					ProjectRef = 8B2874391E2C8F73004F4604 /* AudioKit For iOS.xcodeproj */;
 				},
+				{
+					ProductGroup = 8B58AAC91E2EF415004E13E1 /* Products */;
+					ProjectRef = 8B58AAC81E2EF415004E13E1 /* Surge.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -196,6 +240,20 @@
 			remoteRef = 8B28743D1E2C8F75004F4604 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		8B58AACE1E2EF415004E13E1 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = 8B58AACD1E2EF415004E13E1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8B58AAD01E2EF415004E13E1 /* SurgeTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SurgeTests.xctest;
+			remoteRef = 8B58AACF1E2EF415004E13E1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -205,6 +263,7 @@
 			files = (
 				8B2EF51A1E2589E700183121 /* LaunchScreen.storyboard in Resources */,
 				8B2EF5171E2589E700183121 /* Assets.xcassets in Resources */,
+				8B7FB66C1E301B690095D1EB /* sine.wav in Resources */,
 				8B2EF5231E2589F500183121 /* breath-gasp-01.wav in Resources */,
 				8B2EF5121E2589E700183121 /* Main.storyboard in Resources */,
 				8B2EF5241E2589F500183121 /* breath-gasp-02.wav in Resources */,
@@ -233,6 +292,11 @@
 			isa = PBXTargetDependency;
 			name = AudioKit;
 			targetProxy = 8B2874411E2C8FAC004F4604 /* PBXContainerItemProxy */;
+		};
+		8B58AAD41E2EF426004E13E1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Surge;
+			targetProxy = 8B58AAD31E2EF426004E13E1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

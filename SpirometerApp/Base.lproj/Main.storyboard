@@ -38,14 +38,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndb-mr-AKA">
-                                <rect key="frame" x="16" y="629" width="77" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Play Sound"/>
-                                <connections>
-                                    <action selector="playSoundButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8Bg-BZ-gNn"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1rm-pD-Rxm">
                                 <rect key="frame" x="117" y="464" width="141" height="30"/>
                                 <state key="normal" title="Play recorded sound"/>
@@ -174,7 +166,7 @@
                         <outlet property="distancePickerView" destination="tYR-jk-LGh" id="yfn-14-aR0"/>
                         <outlet property="fev1TextField" destination="gbV-Lx-KCZ" id="eab-4L-Jrj"/>
                         <outlet property="nameTextField" destination="qIS-b0-thu" id="1zl-Fa-iyc"/>
-                        <outlet property="playSoundButton" destination="ndb-mr-AKA" id="DHy-dq-IfV"/>
+                        <outlet property="playRecordedSoundButton" destination="1rm-pD-Rxm" id="71F-xe-w6k"/>
                         <outlet property="trialTextField" destination="fql-3i-sds" id="hiJ-Yz-FLl"/>
                     </connections>
                 </viewController>

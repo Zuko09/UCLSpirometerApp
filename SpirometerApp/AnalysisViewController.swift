@@ -14,6 +14,7 @@ import UIKit
 
 import AudioKit
 
+import Surge
 
 class AnalysisViewController: UIViewController {
     
@@ -37,19 +38,25 @@ class AnalysisViewController: UIViewController {
             do {
                 print(aFile)
                 let file = try AKAudioFile(readFileName: aFile, baseDir: .documents)
-                let rect = CGRect(x:0, y:0, width:500, height:200)
+
+//                let path = Bundle.main.path(forResource: "sine", ofType: "wav")
+//                let file = try AKAudioFile(forReading: URL(string: path!)!)
+
                 player = try AKAudioPlayer(file: file)
                 
                 player?.looping = true
-                var variSpeed = AKVariSpeed(player!)
-                variSpeed.rate = 1
+                let variSpeed = AKVariSpeed(player!)
+                variSpeed.rate = 0.3
                 AudioKit.output = variSpeed
                 AudioKit.start()
                 player?.play()
-                //let plot = AKNodeFFTPlot.init(player!, frame: rect)
-//                plot.fft(EZAudioFFT(), updatedWithFFTData: UnsafeMutablePointer<Float>(), bufferSize: vDSP_Length())
-                plotAudio()
-                //self.view.addSubview(plot)
+                let rect = CGRect(x:0, y:0, width:500, height:200)
+                
+                let plot = AKNodeFFTPlot.init(player!, frame: rect)
+                
+                self.view.addSubview(plot)
+                //plot.fft(EZAudioFFT(), updatedWithFFTData: UnsafeMutablePointer<Float>(), bufferSize: vDSP_Length())
+                //plotAudio()
             } catch {
                 print("Failed to load  wav file to AKAudioFile")
             }
@@ -71,6 +78,83 @@ class AnalysisViewController: UIViewController {
         super.viewDidLoad()
         activityIndicator.alpha = 0;
         
+        
+    }
+    
+    @IBAction func analyzeButtonPressed(_ sender: Any) {
+        activityIndicator.startAnimating()
+        activityIndicator.alpha = 1;
+        let rawData = getRawDataFromDocuments(filename: aFile)
+//        let path = Bundle.main.path(forResource: "breath-gasp-01", ofType: "wav")
+//        let rawData = getRawDataFromURL(url: URL(string: path!)!)
+        print("Surge")
+        print(Surge.fft(rawData))
+        
+    }
+    
+    func stft(inputData: [Float], hop: Int, samplingFrequency: Int, windowSize: Int) -> [Float] {
+        var outputData = [Float]()
+        let dos = samplingFrequency * windowSize
+        
+        
+        
+        return outputData
+    }
+    
+    func getRawDataFromDocuments(filename: String) -> [Float] {
+        
+        var floatArray:[Float] = [Float]()
+        
+        let urlsInDocumentsDirectory = getDocumentsDirectory()
+        
+        let filesInDocsDir = urlsInDocumentsDirectory.map{ $0.deletingPathExtension().lastPathComponent }
+        
+        var results = ""
+        var index = 0
+        var url:URL? = URL(fileURLWithPath: "")
+        for file in filesInDocsDir {
+            let fullFile = file + ".wav"
+            if fullFile  == filename {
+                url = urlsInDocumentsDirectory[index]
+            }
+            index += 1
+        }
+        
+        floatArray = getRawDataFromURL(url: url!)
+        
+        
+        return floatArray
+    }
+    
+    func getRawDataFromURL(url: URL) ->[Float] {
+        var file = AVAudioFile()
+        if url.relativeString != "./" {
+            print(url.relativeString)
+            file = try! AVAudioFile.init(forReading: url)
+        } else {
+            print("use default url")
+            let temp = try! AKAudioFile(readFileName: aFile, baseDir: .documents)
+            file = try! AVAudioFile(forReading: temp.url)
+        }
+        
+        print(file.fileFormat.sampleRate)
+            
+            
+        let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 1, interleaved: false)
+            
+        let buf = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 44100)
+        print(file.framePosition)
+        try! file.read(into: buf)
+        
+        // this makes a copy, you might not want that
+        print(buf.frameCapacity)
+        print(buf.frameLength)
+        print("\n" + String(describing: buf))
+        print("Error")
+        return Array(UnsafeBufferPointer(start: buf.floatChannelData?[0], count:Int(buf.frameLength)))
+        //print("floatArray \(floatArray)\n")
+            
+        return [Float]()
     }
     
     func plotAudio() {
@@ -93,32 +177,6 @@ class AnalysisViewController: UIViewController {
         
     }
     
-    @IBAction func analyzeButtonPressed(_ sender: Any) {
-        activityIndicator.startAnimating()
-        activityIndicator.alpha = 1;
-        
-        let urlsInDocumentsDirectory = getDocumentsDirectory()
-        let filesInDocsDir = urlsInDocumentsDirectory.map{ $0.deletingPathExtension().lastPathComponent }
-        
-        var results = ""
-        for file in filesInDocsDir {
-            results = results + ", " + file
-        }
-        
-        let url = urlsInDocumentsDirectory[0]
-        let file = try! AVAudioFile(forReading: url)
-        let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: file.fileFormat.sampleRate, channels: 1, interleaved: false)
-        
-        let buf = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 1024)
-        try! file.read(into: buf)
-        
-        // this makes a copy, you might not want that
-        let floatArray = Array(UnsafeBufferPointer(start: buf.floatChannelData?[0], count:Int(buf.frameLength)))
-        
-        print("floatArray \(floatArray)\n")
-        showDataLabel.text = results
-    }
-    
     
     // This function gets the URL for the documents directory.
     func getDocumentsDirectory() -> [URL] {
@@ -137,8 +195,6 @@ class AnalysisViewController: UIViewController {
         }
         return results
     }
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

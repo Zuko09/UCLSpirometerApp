@@ -12,9 +12,9 @@ import AVFoundation
 
 import UIKit
 
-import AudioKit
+import Accelerate
 
-import Surge
+import AudioKit
 
 class AnalysisViewController: UIViewController {
     
@@ -101,43 +101,48 @@ class AnalysisViewController: UIViewController {
         var currentSample = 0;
         while currentSample < windows {
             
-            let stop = currentSample + windowSize
-            var sample:ArraySlice<Float> = inputData[currentSample ..< stop]
-            let newSampleData = sample.enumerated().map({(index, element) in
-                let num:Float = 2 * Float.pi * index / inputData.count
-                return 0.54 - 0.46 * cos(num)
-            })
-            outputData.append(contentsOf: fftSlices(sample))
+            let range:Range = currentSample..<currentSample + windowSize
+            let sample:[Float] = [Float](inputData[range])
+            
+            outputData.append(contentsOf: sample)
             currentSample += hop
         }
         return outputData
     }
     
-    public func hamming(input: Float) -> Float {
-        var output = input
-        return output
-    }
+//    public func hamming(inputData: [Double]) -> Float {
+//        let count = inputData.count as! Double
+//        var output = inputData
+//        output.enumerated().map({(index, value) -> [Float] in
+//            let num:Float = 2 * Float.pi * index / count
+//            let hammingNum = 0.54 - 0.46 * cos(num)
+//            let final = value * hammingNum
+//            return final
+//        })
+//        
+//        
+//    }
     
-    public func fftSlices(_ input: ArraySlice<Float>) -> [Float] {
-        var real = [Float](input)
-        var imaginary = [Float](repeating: 0.0, count: input.count)
-        var splitComplex = DSPSplitComplex(realp: &real, imagp: &imaginary)
-        
-        let length = vDSP_Length(floor(log2(Float(input.count))))
-        let radix = FFTRadix(kFFTRadix2)
-        let weights = vDSP_create_fftsetup(length, radix)
-        vDSP_fft_zip(weights!, &splitComplex, 1, length, FFTDirection(FFT_FORWARD))
-        
-        var magnitudes = [Float](repeating: 0.0, count: input.count)
-        vDSP_zvmags(&splitComplex, 1, &magnitudes, 1, vDSP_Length(input.count))
-        
-        var normalizedMagnitudes = [Float](repeating: 0.0, count: input.count)
-        vDSP_vsmul(sqrt(magnitudes), 1, [2.0 / Float(input.count)], &normalizedMagnitudes, 1, vDSP_Length(input.count))
-        
-        vDSP_destroy_fftsetup(weights)
-        
-        return normalizedMagnitudes
-    }
+    
+//    public func fft(_ input: [Float]) -> [Float] {
+//        var real = [Float](input)
+//        var imaginary = [Float](repeating: 0.0, count: input.count)
+//        var splitComplex = DSPSplitComplex(realp: &real, imagp: &imaginary)
+//        
+//        let length = vDSP_Length(floor(log2(Float(input.count))))
+//        let radix = FFTRadix(kFFTRadix2)
+//        let weights = vDSP_create_fftsetup(length, radix)
+//        vDSP_fft_zip(weights!, &splitComplex, 1, length, FFTDirection(FFT_FORWARD))
+//        
+//        var magnitudes = [Float](repeating: 0.0, count: input.count)
+//        vDSP_zvmags(&splitComplex, 1, &magnitudes, 1, vDSP_Length(input.count))
+//        
+//        var normalizedMagnitudes = [Float](repeating: 0.0, count: input.count)
+//        vDSP_vsmul(UnsafeMutablePointer<Float>(mutating: (magnitudes).map({mag in sqrtf(mag)})), 1, [2.0 / Float(input.count)], &normalizedMagnitudes, 1, vDSP_Length(input.count))
+//        vDSP_destroy_fftsetup(weights)
+//        
+//        return normalizedMagnitudes
+//    }
     
     func getRawDataFromDocuments(filename: String) -> [Float] {
         
@@ -147,7 +152,6 @@ class AnalysisViewController: UIViewController {
         
         let filesInDocsDir = urlsInDocumentsDirectory.map{ $0.deletingPathExtension().lastPathComponent }
         
-        var results = ""
         var index = 0
         var url:URL? = URL(fileURLWithPath: "")
         for file in filesInDocsDir {
@@ -191,8 +195,6 @@ class AnalysisViewController: UIViewController {
         print("Error")
         return Array(UnsafeBufferPointer(start: buf.floatChannelData?[0], count:Int(buf.frameLength)))
         //print("floatArray \(floatArray)\n")
-            
-        return [Float]()
     }
     
     func plotAudio() {
@@ -210,11 +212,6 @@ class AnalysisViewController: UIViewController {
         plotView?.addSubview(plot)
         self.view.addSubview(plotView!)
     }
-    
-    func getFft() {
-        
-    }
-    
     
     // This function gets the URL for the documents directory.
     func getDocumentsDirectory() -> [URL] {

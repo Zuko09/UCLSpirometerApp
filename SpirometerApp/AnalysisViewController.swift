@@ -87,18 +87,56 @@ class AnalysisViewController: UIViewController {
         let rawData = getRawDataFromDocuments(filename: aFile)
 //        let path = Bundle.main.path(forResource: "breath-gasp-01", ofType: "wav")
 //        let rawData = getRawDataFromURL(url: URL(string: path!)!)
-        print("Surge")
-        print(Surge.fft(rawData))
+//        print("Surge")
+//        print(Surge.fft(rawData))
+        print(stft(inputData: rawData, windowSize: 22050, overlap: 2))
         
     }
     
-    func stft(inputData: [Float], hop: Int, samplingFrequency: Int, windowSize: Int) -> [Float] {
+    func stft(inputData: [Float], windowSize: Int, overlap: Int) -> [Float] {
         var outputData = [Float]()
-        let dos = samplingFrequency * windowSize
+        let hop = windowSize / overlap
+        let windows = Int(inputData.count - windowSize)
         
-        
-        
+        var currentSample = 0;
+        while currentSample < windows {
+            
+            let stop = currentSample + windowSize
+            var sample:ArraySlice<Float> = inputData[currentSample ..< stop]
+            let newSampleData = sample.enumerated().map({(index, element) in
+                let num:Float = 2 * Float.pi * index / inputData.count
+                return 0.54 - 0.46 * cos(num)
+            })
+            outputData.append(contentsOf: fftSlices(sample))
+            currentSample += hop
+        }
         return outputData
+    }
+    
+    public func hamming(input: Float) -> Float {
+        var output = input
+        return output
+    }
+    
+    public func fftSlices(_ input: ArraySlice<Float>) -> [Float] {
+        var real = [Float](input)
+        var imaginary = [Float](repeating: 0.0, count: input.count)
+        var splitComplex = DSPSplitComplex(realp: &real, imagp: &imaginary)
+        
+        let length = vDSP_Length(floor(log2(Float(input.count))))
+        let radix = FFTRadix(kFFTRadix2)
+        let weights = vDSP_create_fftsetup(length, radix)
+        vDSP_fft_zip(weights!, &splitComplex, 1, length, FFTDirection(FFT_FORWARD))
+        
+        var magnitudes = [Float](repeating: 0.0, count: input.count)
+        vDSP_zvmags(&splitComplex, 1, &magnitudes, 1, vDSP_Length(input.count))
+        
+        var normalizedMagnitudes = [Float](repeating: 0.0, count: input.count)
+        vDSP_vsmul(sqrt(magnitudes), 1, [2.0 / Float(input.count)], &normalizedMagnitudes, 1, vDSP_Length(input.count))
+        
+        vDSP_destroy_fftsetup(weights)
+        
+        return normalizedMagnitudes
     }
     
     func getRawDataFromDocuments(filename: String) -> [Float] {
